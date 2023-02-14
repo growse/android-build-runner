@@ -26,7 +26,7 @@ WORKDIR /
 
 RUN sudo rm -rf /home/runner/dummy-gradle
 
-ADD set-gradle-properties.sh /
-RUN sudo chmod 755 /set-gradle-properties.sh
+ADD set-gradle-properties-entrypoint.sh /
+RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
 
-CMD ["sh","-c","/set-gradle-properties.sh ; /entrypoint.sh"]
+CMD ["/set-gradle-properties-entrypoint.sh"]
