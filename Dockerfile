@@ -9,7 +9,9 @@ RUN yes | /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
 RUN yes | /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --update
 
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
+RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "build-tools;33.0.2"
+RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "build-tools;30.0.3"
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platforms;android-33"
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-31;google_apis;x86_64"
 ENV ANDROID_SDK_ROOT=/home/runner/android-sdk
