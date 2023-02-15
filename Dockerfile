@@ -1,6 +1,6 @@
 FROM ghcr.io/actions/actions-runner-controller/actions-runner:ubuntu-20.04
 
-RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y openjdk-17-jdk-headless libgl1 libc++1-11 libtcmalloc-minimal4
+RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y openjdk-17-jdk-headless libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker
 RUN mkdir -p /home/runner/android-sdk/cmdline-tools
 WORKDIR /home/runner/android-sdk/cmdline-tools
 RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && unzip commandlinetools-linux.zip && mv cmdline-tools tools && rm commandlinetools-linux.zip
@@ -30,5 +30,7 @@ RUN sudo rm -rf /home/runner/dummy-gradle
 
 ADD set-gradle-properties-entrypoint.sh /
 RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
+
+RUN sudo adduser --gid 106 runner
 
 CMD ["/set-gradle-properties-entrypoint.sh"]
