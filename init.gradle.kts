@@ -1,13 +1,10 @@
 gradle.settingsEvaluated {
     buildCache {
         remote<HttpBuildCache> {
-            val remoteCacheUrl: String? by project
-            url = uri(remoteCacheUrl)
-            val remoteCacheUsername: String? by project
-            val remoteCachePassword: String? by project
+            url = uri(System.getenv("GRADLE_REMOTE_CACHE_URL"))
             credentials {
-                username = remoteCacheUsername
-                password = remoteCachePassword
+                username = System.getenv("GRADLE_REMOTE_CACHE_USERNAME")
+                password = System.getenv("GRADLE_REMOTE_CACHE_PASSWORD}")
             }
             isAllowInsecureProtocol = false
             isPush = true
