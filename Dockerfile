@@ -31,6 +31,6 @@ RUN sudo rm -rf /home/runner/dummy-gradle
 ADD set-gradle-properties-entrypoint.sh /
 RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
 
-RUN sudo adduser --gid 106 runner
+RUN sudo usermod -a -G 106 runner
 
 CMD ["/set-gradle-properties-entrypoint.sh"]
