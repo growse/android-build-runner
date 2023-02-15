@@ -1,6 +1,22 @@
 FROM ghcr.io/actions/actions-runner-controller/actions-runner:ubuntu-20.04
 
-RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y openjdk-17-jdk-headless libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker
+RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker
+WORKDIR /home/runner
+# Pre-fetch JDK
+ARG JDK_VERSION=17.0.6+10
+RUN mkdir -p /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/${JDK_VERSION}/
+WORKDIR /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/${JDK_VERSION}/
+RUN curl -L -o jdk.tar.gz $(curl -s "https://api.adoptium.net/v3/assets/version/$(echo ${JDK_VERSION}| jq -Rr @uri)?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=linux&page=0&page_size=10&project=jdk&release_type=ga&sort_method=DEFAULT&sort_order=DESC&vendor=eclipse" -H 'accept: application/json' |jq -r .[0].binaries[0].package.link)
+RUN tar -zxvf jdk.tar.gz
+RUN rm jdk.tar.gz
+
+RUN mv jdk-* x64
+
+RUN mkdir /home/runner/.m2
+ADD toolchains.xml /home/runner/.m2/toolchains.xml
+
+ENV JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/${JDK_VERSION}/x64
+
 RUN mkdir -p /home/runner/android-sdk/cmdline-tools
 WORKDIR /home/runner/android-sdk/cmdline-tools
 RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && unzip commandlinetools-linux.zip && mv cmdline-tools tools && rm commandlinetools-linux.zip
