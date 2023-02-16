@@ -3,6 +3,7 @@ RUN apk --update add git
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
 RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.git
+
 WORKDIR /home/runner/setup-java/dist/setup
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
@@ -26,10 +27,7 @@ RUN yes | /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --update
 
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
 RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "build-tools;33.0.2"
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "build-tools;30.0.3"
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platforms;android-33"
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-31;google_apis;x86_64"
+
 ENV ANDROID_SDK_ROOT=/home/runner/android-sdk
 
 WORKDIR /home/runner
