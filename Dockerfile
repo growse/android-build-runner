@@ -9,7 +9,7 @@ RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE
 
 FROM ghcr.io/actions/actions-runner-controller/actions-runner:ubuntu-20.04
 
-RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker
+RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop
 
 COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
 COPY --from=javaSetup /root/.m2/toolchains.xml /home/runner/.m2/toolchains.xml
