@@ -35,9 +35,9 @@ RUN mkdir /home/runner/.gradle
 
 RUN mkdir /home/runner/dummy-gradle/
 WORKDIR /home/runner/dummy-gradle
-RUN touch settings.gradle.kts && curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.0-bin.zip && unzip gradle.zip && ./gradle-8.0/bin/gradle tasks
-RUN mkdir wrapper-8.0 && cd wrapper-8.0 && touch settings.gradle.kts && ../gradle-8.0/bin/gradle wrapper --gradle-version 8.0 && ./gradlew
-RUN mkdir wrapper-7.6 && cd wrapper-7.6 && touch settings.gradle.kts && ../gradle-8.0/bin/gradle wrapper --gradle-version 7.6 && ./gradlew
+RUN touch settings.gradle.kts && curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.0.1-bin.zip && unzip gradle.zip && ./gradle-8.0.1/bin/gradle tasks
+RUN mkdir wrapper-8.0.1 && cd wrapper-8.0.1 && touch settings.gradle.kts && ../gradle-8.0.1/bin/gradle wrapper --gradle-version 8.0.1 && ./gradlew
+RUN mkdir wrapper-7.6 && cd wrapper-7.6 && touch settings.gradle.kts && ../gradle-8.0.1/bin/gradle wrapper --gradle-version 7.6 && ./gradlew
 ADD init.gradle.kts /home/runner/.gradle/init.gradle.kts
 
 WORKDIR /
