@@ -8,4 +8,4 @@ find /home/runner/android-sdk -type f -name sdkmanager -exec sed -i 's/exec "\$J
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
 
-/usr/bin/entrypoint.sh
+/usr/bin/entrypoint-dind.sh
