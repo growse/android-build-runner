@@ -7,7 +7,7 @@ RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.g
 WORKDIR /home/runner/setup-java/dist/setup
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
-FROM ghcr.io/actions/actions-runner-controller/actions-runner:ubuntu-20.04
+FROM ghcr.io/actions/actions-runner-controller/actions-runner-dind:ubuntu-20.04
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop
 
@@ -45,7 +45,7 @@ WORKDIR /
 RUN sudo rm -rf /home/runner/dummy-gradle
 
 ADD set-gradle-properties-entrypoint.sh /
-ADD daemon.json /etc/docker/daemon.json
+# ADD daemon.json /etc/docker/daemon.json
 RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
 
 CMD ["/set-gradle-properties-entrypoint.sh"]
