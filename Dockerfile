@@ -45,8 +45,7 @@ WORKDIR /
 RUN sudo rm -rf /home/runner/dummy-gradle
 
 ADD set-gradle-properties-entrypoint.sh /
+ADD daemon.json /etc/docker/daemon.json
 RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
-
-ENV PATH "$PATH:/home/runner/android-sdk/platform-tools/:/home/runner/android-sdk/cmdline-tools/latest/bin/"
 
 CMD ["/set-gradle-properties-entrypoint.sh"]
