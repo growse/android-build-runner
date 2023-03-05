@@ -23,8 +23,6 @@ RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/reposito
 RUN sudo ln -s $(dirname $(find /opt/hostedtoolcache/ -name release)) /opt/jdk
 ENV JAVA_HOME=/opt/jdk
 
-RUN yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
-
 # RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
 # RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
 
