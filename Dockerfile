@@ -9,7 +9,7 @@ RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE
 
 FROM ghcr.io/actions/actions-runner-controller/actions-runner-dind:ubuntu-22.04
 
-RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop
+RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync
 
 COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
 COPY --from=javaSetup /root/.m2/toolchains.xml /home/runner/.m2/toolchains.xml
@@ -22,9 +22,6 @@ RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/reposito
 
 RUN sudo ln -s $(dirname $(find /opt/hostedtoolcache/ -name release)) /opt/jdk
 ENV JAVA_HOME=/opt/jdk
-
-# RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
-# RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
 
 ENV ANDROID_SDK_ROOT=/android-sdk
 
