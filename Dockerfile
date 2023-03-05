@@ -15,20 +15,20 @@ COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
 COPY --from=javaSetup /root/.m2/toolchains.xml /home/runner/.m2/toolchains.xml
 RUN sudo chown -R runner /home/runner/
 
-RUN mkdir -p /home/runner/android-sdk/cmdline-tools
-WORKDIR /home/runner/android-sdk/cmdline-tools
+RUN sudo mkdir -p /bootstrap/android-sdk/cmdline-tools
+RUN sudo chown -R runner /bootstrap
+WORKDIR /bootstrap/android-sdk/cmdline-tools
 RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && unzip commandlinetools-linux.zip && mv cmdline-tools tools && rm commandlinetools-linux.zip
 
 RUN sudo ln -s $(dirname $(find /opt/hostedtoolcache/ -name release)) /opt/jdk
 ENV JAVA_HOME=/opt/jdk
 
-RUN yes | /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
-RUN yes | /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --update
+RUN yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
 
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
-RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
+# RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "cmdline-tools;latest"
+# RUN /home/runner/android-sdk/cmdline-tools/tools/bin/sdkmanager --install "platform-tools"
 
-ENV ANDROID_SDK_ROOT=/home/runner/android-sdk
+ENV ANDROID_SDK_ROOT=/android-sdk
 
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
@@ -44,8 +44,8 @@ WORKDIR /
 
 RUN sudo rm -rf /home/runner/dummy-gradle
 
-ADD set-gradle-properties-entrypoint.sh /
-# ADD daemon.json /etc/docker/daemon.json
-RUN sudo chmod 755 /set-gradle-properties-entrypoint.sh
+ADD entrypoint-wrapper.sh /
 
-CMD ["/set-gradle-properties-entrypoint.sh"]
+RUN sudo chmod 755 /entrypoint-wrapper.sh
+
+CMD ["/entrypoint-wrapper.sh"]

@@ -2,8 +2,7 @@
 
 printf '%s\n' "scan.uploadInBackground=false" "org.gradle.configureondemand=true" >/home/runner/.gradle/gradle.properties
 
-# Patch sdkmanager to force http so that it uses the proxy
-find /home/runner/android-sdk -type f -name sdkmanager -exec sed -i 's/exec "\$JAVACMD" "\$@"$/exec "$JAVACMD" "$@" --no_https/' {} \;
+yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --update
 
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
