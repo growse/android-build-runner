@@ -39,6 +39,7 @@ WORKDIR /
 
 RUN sudo rm -rf /home/runner/dummy-gradle
 
+RUN sudo mkdir /android-sdk
 ADD entrypoint-wrapper.sh /
 
 RUN sudo chmod 755 /entrypoint-wrapper.sh

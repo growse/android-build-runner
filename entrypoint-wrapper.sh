@@ -2,10 +2,10 @@
 
 printf '%s\n' "scan.uploadInBackground=false" "org.gradle.configureondemand=true" >/home/runner/.gradle/gradle.properties
 
-sudo rsync -avzr /bootstrap/android-sdk/ /android-sdk/ && chown -R runner /android-sdk
+sudo chown -R runner /android-sdk
 
-yes | /android-sdk/cmdline-tools/tools/bin/sdkmanager --update
-yes | /android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
+yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=/android-sdk --licenses
+/bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=/android-sdk --no_https "cmdline-tools;latest"
 
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
