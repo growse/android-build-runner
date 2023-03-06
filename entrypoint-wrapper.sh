@@ -2,7 +2,7 @@
 
 printf '%s\n' "scan.uploadInBackground=false" "org.gradle.configureondemand=true" >/home/runner/.gradle/gradle.properties
 
-rsync -avzr /bootstrap/android-sdk /android-sdk
+sudo rsync -avzr /bootstrap/android-sdk /android-sdk && chown -R runner /android-sdk
 
 yes | /android-sdk/cmdline-tools/tools/bin/sdkmanager --update
 yes | /android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
