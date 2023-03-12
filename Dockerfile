@@ -44,4 +44,22 @@ ADD entrypoint-wrapper.sh /
 
 RUN sudo chmod 755 /entrypoint-wrapper.sh
 
+# Install latest runner
+ENV RUNNER_VERSION=2.303.0
+ENV RUNNER_ASSETS_DIR=/runnertmp
+RUN sudo rm -rf ${RUNNER_ASSETS_DIR}/*
+RUN export ARCH=amd64 \
+    && echo https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz \
+    && if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "x86_64" ] || [ "$ARCH" = "i386" ]; then export ARCH=x64 ; fi \
+    && mkdir -p "$RUNNER_ASSETS_DIR" \
+    && cd "$RUNNER_ASSETS_DIR" \
+    && curl -fLo runner.tar.gz https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz \
+    && tar xzf ./runner.tar.gz \
+    && rm runner.tar.gz
+WORKDIR $RUNNER_ASSETS_DIR
+RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
+    && sudo mv ./externals ./externalstmp 
+
+WORKDIR /
+
 CMD ["/entrypoint-wrapper.sh"]
