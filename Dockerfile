@@ -24,6 +24,7 @@ RUN sudo ln -s $(dirname $(find /opt/hostedtoolcache/ -name release)) /opt/jdk
 ENV JAVA_HOME=/opt/jdk
 
 ENV ANDROID_SDK_ROOT=/android-sdk
+ENV ANDROID_HOME=/android-sdk
 
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
