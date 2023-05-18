@@ -25,6 +25,7 @@ ENV JAVA_HOME=/opt/jdk
 
 ENV ANDROID_SDK_ROOT=/android-sdk
 ENV ANDROID_HOME=/android-sdk
+ENV ANDROID_USER_HOME=/android-sdk/user_home
 
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
