@@ -1,4 +1,4 @@
-FROM node:20.1-alpine3.17 as javaSetup
+FROM node:20.2-alpine3.17 as javaSetup
 RUN apk --update add git
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
