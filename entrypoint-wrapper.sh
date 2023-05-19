@@ -10,4 +10,6 @@ yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=/andr
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
 
+ln -s /android-sdk/user_home /home/runner/.android
+
 /usr/bin/entrypoint-dind.sh

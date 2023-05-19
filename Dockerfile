@@ -65,6 +65,5 @@ RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
 
 
 WORKDIR /
-RUN ln -s /android-sdk/user_home /home/runner/.android
 
 CMD ["/entrypoint-wrapper.sh"]
