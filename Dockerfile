@@ -1,7 +1,6 @@
 FROM node:20.2-alpine3.17 as javaSetup
 RUN apk --update add git
 RUN mkdir -p /home/runner
-RUN ln -s /android-sdk/user_home /home/runner/.android
 WORKDIR /home/runner
 RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.git
 
@@ -66,5 +65,6 @@ RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
 
 
 WORKDIR /
+RUN ln -s /android-sdk/user_home /home/runner/.android
 
 CMD ["/entrypoint-wrapper.sh"]
