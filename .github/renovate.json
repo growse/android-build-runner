@@ -1,4 +1,5 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base",
     ":disableRateLimiting",
@@ -12,6 +13,12 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\sENV .*?_VERSION=(?<currentValue>.*)\\s"
       ]
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["actions/runner"],
+      "extractVersion": "^v(?<version>.*)$"
     }
   ]
 }
