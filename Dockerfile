@@ -48,6 +48,7 @@ ADD entrypoint-wrapper.sh /
 RUN sudo chmod 755 /entrypoint-wrapper.sh
 
 # Install latest runner
+# renovate: datasource=github-releases depName=actions/runner
 ENV RUNNER_VERSION=2.303.0
 ENV RUNNER_ASSETS_DIR=/runnertmp
 RUN sudo rm -rf ${RUNNER_ASSETS_DIR}/*
