@@ -49,7 +49,7 @@ RUN sudo chmod 755 /entrypoint-wrapper.sh
 
 # Install latest runner
 # renovate: datasource=github-releases depName=actions/runner
-ENV RUNNER_VERSION=2.305.0
+ENV RUNNER_VERSION=2.306.0
 ENV RUNNER_ASSETS_DIR=/runnertmp
 RUN sudo rm -rf ${RUNNER_ASSETS_DIR}/*
 RUN export ARCH=amd64 \
