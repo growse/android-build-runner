@@ -62,7 +62,7 @@ RUN export ARCH=amd64 \
     && rm runner.tar.gz
 WORKDIR $RUNNER_ASSETS_DIR
 RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
-    && sudo mv ./externals ./externalstmp 
+    && sudo mv ./externals ./externalstmp
 
 
 WORKDIR /
