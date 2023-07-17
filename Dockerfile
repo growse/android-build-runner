@@ -1,3 +1,6 @@
+# syntax=docker/dockerfile:1
+
+# Fetch the JDK
 FROM node:20.4-alpine3.17 as javaSetup
 RUN apk --update add git
 RUN mkdir -p /home/runner
@@ -7,6 +10,13 @@ RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.g
 WORKDIR /home/runner/setup-java/dist/setup
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
+FROM gradle:8.2.1 as wrapper-8.2.1
+RUN mkdir /wrapper
+WORKDIR /wrapper
+ENV GRADLE_USER_HOME=/wrapper/.gradle
+RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.2.1 --distribution-type bin --gradle-distribution-sha256-sum=03ec176d388f2aa99defcadc3ac6adf8dd2bce5145a129659537c0874dea5ad1 && ./gradlew tasks
+
+# Build the runner based on actions-runner-dind
 FROM ghcr.io/actions/actions-runner-controller/actions-runner-dind:ubuntu-22.04
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync
@@ -31,11 +41,6 @@ ENV ANDROID_AVD_HOME=/android-sdk/user_home/avd
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
 
-RUN mkdir /home/runner/dummy-gradle/
-WORKDIR /home/runner/dummy-gradle
-RUN touch settings.gradle.kts && curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-8.1.1-bin.zip && unzip gradle.zip && ./gradle-8.1.1/bin/gradle tasks
-RUN mkdir wrapper-8.1.1 && cd wrapper-8.1.1 && touch settings.gradle.kts && ../gradle-8.1.1/bin/gradle wrapper --gradle-version 8.1.1 && ./gradlew
-RUN mkdir wrapper-7.6.1 && cd wrapper-7.6.1 && touch settings.gradle.kts && ../gradle-8.1.1/bin/gradle wrapper --gradle-version 7.6.1 && ./gradlew
 ADD init.gradle.kts /home/runner/.gradle/init.gradle.kts
 
 WORKDIR /
@@ -47,6 +52,9 @@ ADD entrypoint-wrapper.sh /
 
 RUN sudo chmod 755 /entrypoint-wrapper.sh
 
+COPY --from=wrapper-8.2.1 /wrapper/.gradle/ /home/runner/.gradle/
+
+RUN sudo chown -R runner:runner /home/runner/.gradle
 # Install latest runner
 # renovate: datasource=github-releases depName=actions/runner
 ENV RUNNER_VERSION=2.306.0
@@ -63,7 +71,6 @@ RUN export ARCH=amd64 \
 WORKDIR $RUNNER_ASSETS_DIR
 RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
     && sudo mv ./externals ./externalstmp
-
 
 WORKDIR /
 
