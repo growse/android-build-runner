@@ -19,6 +19,15 @@
     {
       "matchPackageNames": ["actions/runner"],
       "extractVersion": "^v(?<version>.*)$"
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
     }
-  ]
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  }
 }
