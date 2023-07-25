@@ -57,7 +57,7 @@ COPY --from=wrapper-8.2.1 /wrapper/.gradle/ /home/runner/.gradle/
 RUN sudo chown -R runner:runner /home/runner/.gradle
 # Install latest runner
 # renovate: datasource=github-releases depName=actions/runner
-ENV RUNNER_VERSION=2.306.0
+ENV RUNNER_VERSION=2.307.1
 ENV RUNNER_ASSETS_DIR=/runnertmp
 RUN sudo rm -rf ${RUNNER_ASSETS_DIR}/*
 RUN export ARCH=amd64 \
