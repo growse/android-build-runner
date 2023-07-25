@@ -17,7 +17,7 @@ ENV GRADLE_USER_HOME=/wrapper/.gradle
 RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.2.1 --distribution-type bin --gradle-distribution-sha256-sum=03ec176d388f2aa99defcadc3ac6adf8dd2bce5145a129659537c0874dea5ad1 && ./gradlew tasks
 
 # Build the runner based on actions-runner-dind
-FROM ghcr.io/actions/actions-runner-controller/actions-runner-dind:ubuntu-22.04
+FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:v2.306.0-ubuntu-22.04
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync
 
@@ -55,22 +55,6 @@ RUN sudo chmod 755 /entrypoint-wrapper.sh
 COPY --from=wrapper-8.2.1 /wrapper/.gradle/ /home/runner/.gradle/
 
 RUN sudo chown -R runner:runner /home/runner/.gradle
-# Install latest runner
-# renovate: datasource=github-releases depName=actions/runner
-ENV RUNNER_VERSION=2.306.0
-ENV RUNNER_ASSETS_DIR=/runnertmp
-RUN sudo rm -rf ${RUNNER_ASSETS_DIR}/*
-RUN export ARCH=amd64 \
-    && echo https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz \
-    && if [ "$ARCH" = "amd64" ] || [ "$ARCH" = "x86_64" ] || [ "$ARCH" = "i386" ]; then export ARCH=x64 ; fi \
-    && mkdir -p "$RUNNER_ASSETS_DIR" \
-    && cd "$RUNNER_ASSETS_DIR" \
-    && curl -fLo runner.tar.gz https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${ARCH}-${RUNNER_VERSION}.tar.gz \
-    && tar xzf ./runner.tar.gz \
-    && rm runner.tar.gz
-WORKDIR $RUNNER_ASSETS_DIR
-RUN --mount=type=cache,target=/var/cache/apt sudo ./bin/installdependencies.sh \
-    && sudo mv ./externals ./externalstmp
 
 WORKDIR /
 
