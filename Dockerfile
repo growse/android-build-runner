@@ -10,7 +10,7 @@ RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.g
 WORKDIR /home/runner/setup-java/dist/setup
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
-FROM gradle:8.2.1 as wrapper-8.2.1
+FROM gradle:8.3.0 as wrapper-8.2.1
 RUN mkdir /wrapper
 WORKDIR /wrapper
 ENV GRADLE_USER_HOME=/wrapper/.gradle
