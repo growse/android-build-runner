@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Fetch the JDK
-FROM node:20.5-alpine3.17 as javaSetup
+FROM node:20.6-alpine3.17 as javaSetup
 RUN apk --update add git
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
