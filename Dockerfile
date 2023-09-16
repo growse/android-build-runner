@@ -7,9 +7,12 @@ RUN mkdir -p /home/runner
 WORKDIR /home/runner
 # renovate: datasource=github-releases depName=actions/setup-java
 ENV SETUP_JAVA_VERSION=v3.11.0
-RUN mkdir setup-java && curl -L -O https://github.com/actions/setup-java/archive/refs/tags/${SETUP_JAVA_VERSION}.tar.gz && tar -zxvf ${SETUP_JAVA_VERSION}.tar.gz && mv setup-java-*/* setup-java/
+RUN curl -L -O https://github.com/actions/setup-java/archive/refs/tags/${SETUP_JAVA_VERSION}.tar.gz && tar -zxvf ${SETUP_JAVA_VERSION}.tar.gz
+RUN mv setup-java-* setup-java
 
 WORKDIR /home/runner/setup-java/dist/setup
+# Fix bug in index.js when running on GHA
+RUN sed -e '/add-matcher/ s|^.|//|' -i index.js 
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
 FROM gradle:8.3.0 as wrapper-8.2.1
