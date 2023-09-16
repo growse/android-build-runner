@@ -2,10 +2,12 @@
 
 # Fetch the JDK
 FROM node:20.6-alpine3.17 as javaSetup
-RUN apk --update add git
+RUN apk --update add curl
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
-RUN git clone --branch v3.10.0 --depth=1 https://github.com/actions/setup-java.git
+# renovate: datasource=github-releases depName=actions/setup-java
+ENV SETUP_JAVA_VERSION=v3.11.0
+RUN mkdir setup-java && curl -L -O https://github.com/actions/setup-java/archive/refs/tags/${SETUP_JAVA_VERSION}.tar.gz && tar -zxvf ${SETUP_JAVA_VERSION}.tar.gz && mv setup-java-*/* setup-java/
 
 WORKDIR /home/runner/setup-java/dist/setup
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
