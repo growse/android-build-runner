@@ -15,7 +15,7 @@ WORKDIR /home/runner/setup-java/dist/setup
 RUN sed -e '/add-matcher/ s|^.|//|' -i index.js 
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
-FROM gradle:8.3.0 as wrapper-8.2.1
+FROM gradle:8.4.0 as wrapper-8.2.1
 RUN mkdir /wrapper
 WORKDIR /wrapper
 ENV GRADLE_USER_HOME=/wrapper/.gradle
