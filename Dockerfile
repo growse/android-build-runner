@@ -15,11 +15,11 @@ WORKDIR /home/runner/setup-java/dist/setup
 RUN sed -e '/add-matcher/ s|^.|//|' -i index.js 
 RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
-FROM gradle:8.4.0 as wrapper-8.2.1
+FROM gradle:8.4.0 as wrapper-8.4.0
 RUN mkdir /wrapper
 WORKDIR /wrapper
 ENV GRADLE_USER_HOME=/wrapper/.gradle
-RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.2.1 --distribution-type bin --gradle-distribution-sha256-sum=03ec176d388f2aa99defcadc3ac6adf8dd2bce5145a129659537c0874dea5ad1 && ./gradlew tasks
+RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.4 --distribution-type bin --gradle-distribution-sha256-sum=3e1af3ae886920c3ac87f7a91f816c0c7c436f276a6eefdb3da152100fef72ae && ./gradlew tasks
 
 # Build the runner based on actions-runner-dind
 FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:v2.311.0-ubuntu-22.04
@@ -57,7 +57,7 @@ ADD entrypoint-wrapper.sh /
 
 RUN sudo chmod 755 /entrypoint-wrapper.sh
 
-COPY --from=wrapper-8.2.1 /wrapper/.gradle/ /home/runner/.gradle/
+COPY --from=wrapper-8.4.0 /wrapper/.gradle/ /home/runner/.gradle/
 
 RUN sudo chown -R runner:runner /home/runner/.gradle
 
