@@ -6,7 +6,7 @@ RUN apk --update add curl
 RUN mkdir -p /home/runner
 WORKDIR /home/runner
 # renovate: datasource=github-releases depName=actions/setup-java
-ENV SETUP_JAVA_VERSION=v3.13.0
+ENV SETUP_JAVA_VERSION=v4.0.0
 RUN curl -L -O https://github.com/actions/setup-java/archive/refs/tags/${SETUP_JAVA_VERSION}.tar.gz && tar -zxvf ${SETUP_JAVA_VERSION}.tar.gz
 RUN mv setup-java-* setup-java
 
