@@ -52,6 +52,4 @@ jobs:
         run: |
           echo '### Docker metadata ' >> $GITHUB_STEP_SUMMARY
           echo '' >> $GITHUB_STEP_SUMMARY
-          echo "Tags: `$TAGS`" >> $GITHUB_STEP_SUMMARY
-        env:
-          TAGS: ${{ steps.meta.outputs.tags }}
+          echo "Tags: $DOCKER_METADATA_OUTPUT_TAGS" >> $GITHUB_STEP_SUMMARY
