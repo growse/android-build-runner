@@ -24,7 +24,7 @@ RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.5 --distribut
 # Build the runner based on actions-runner-dind
 FROM ghcr.io/actions/actions-runner:2.311.0
 
-RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl
+RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip
 
 COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
 COPY --from=javaSetup /root/.m2/toolchains.xml /home/runner/.m2/toolchains.xml
