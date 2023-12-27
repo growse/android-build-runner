@@ -28,7 +28,7 @@ FROM ghcr.io/actions/actions-runner:2.311.0
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip
 
 COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
-COPY --from=javaSetup /root/.m2/ /home/runner/.m2/
+
 RUN sudo chown -R runner /home/runner/
 
 RUN sudo mkdir -p /bootstrap/android-sdk/cmdline-tools
