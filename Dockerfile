@@ -12,8 +12,9 @@ RUN mv setup-java-* setup-java
 
 WORKDIR /home/runner/setup-java/dist/setup
 # Fix bug in index.js when running on GHA
-RUN sed -e '/add-matcher/ s|^.|//|' -i index.js 
-RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-VERSION=17" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
+RUN sed -e '/add-matcher/ s|^.|//|' -i index.js
+ENV INPUT_JAVA-VERSION=17.0.9+9
+RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-PACKAGE=jdk" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
 
 FROM gradle:8.5.0 as wrapper-8.5.0
 RUN mkdir /wrapper
