@@ -14,7 +14,7 @@ WORKDIR /home/runner/setup-java/dist/setup
 # Fix bug in index.js when running on GHA. Otherwise we get "Could not find a part of the path '/home/runner/setup-java/.github/java.json'." periodically
 RUN sed -e '/add-matcher/ s|^.|//|' -i index.js
 ENV INPUT_JAVA_VERSION=17.0.9+9
-RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-PACKAGE=jdk" "INPUT_JAVA-VERSION=$INPUT_JAVA_VERSION" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
+RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-PACKAGE=jdk" "INPUT_JAVA-VERSION=$INPUT_JAVA_VERSION" "RUNNER_TEMP=/runner/_work/_temp/" node index
 
 FROM gradle:8.5.0 as wrapper-8.5.0
 RUN mkdir /wrapper
@@ -27,7 +27,7 @@ FROM ghcr.io/actions/actions-runner:2.311.0
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip
 
-COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
+COPY --from=javaSetup /home/runner/_work/_tool /home/runner/_work/_tool
 COPY --from=javaSetup /root/.m2/ /home/runner/.m2/
 RUN sudo chown -R runner /home/runner/
 
