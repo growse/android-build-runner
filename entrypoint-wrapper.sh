@@ -12,4 +12,4 @@ sudo chmod 666 /dev/kvm
 
 ln -s /android-sdk/user_home /home/runner/.android
 
-/usr/bin/entrypoint-dind.sh
+/home/runner/run.sh
