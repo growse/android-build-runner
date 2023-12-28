@@ -1,21 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# Fetch the JDK
-FROM node:21.5-alpine3.18 as javaSetup
-RUN apk --update add curl
-RUN mkdir -p /home/runner
-WORKDIR /home/runner
-# renovate: datasource=github-releases depName=actions/setup-java
-ENV SETUP_JAVA_VERSION=v4.0.0
-RUN curl -L -O https://github.com/actions/setup-java/archive/refs/tags/${SETUP_JAVA_VERSION}.tar.gz && tar -zxvf ${SETUP_JAVA_VERSION}.tar.gz
-RUN mv setup-java-* setup-java
-
-WORKDIR /home/runner/setup-java/dist/setup
-# Fix bug in index.js when running on GHA. Otherwise we get "Could not find a part of the path '/home/runner/setup-java/.github/java.json'." periodically
-RUN sed -e '/add-matcher/ s|^.|//|' -i index.js
-ENV INPUT_JAVA_VERSION=17.0.9+9
-RUN env "INPUT_DISTRIBUTION=temurin" "INPUT_JAVA-PACKAGE=jdk" "INPUT_JAVA-VERSION=$INPUT_JAVA_VERSION" "RUNNER_TEMP=/runner/_work/_temp/" "RUNNER_TOOL_CACHE=/opt/hostedtoolcache" node index
-
 FROM gradle:8.5.0 as wrapper-8.5.0
 RUN mkdir /wrapper
 WORKDIR /wrapper
@@ -27,7 +11,10 @@ FROM ghcr.io/actions/actions-runner:2.311.0
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip git
 
-COPY --from=javaSetup /opt/hostedtoolcache /opt/hostedtoolcache
+ENV JAVA_HOME=/opt/java/openjdk
+
+COPY --from=eclipse-temurin:17.0.9_9-jdk-jammy $JAVA_HOME $JAVA_HOME
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 RUN sudo chown -R runner /home/runner/
 
@@ -43,8 +30,6 @@ ENV ANDROID_SDK_ROOT=/android-sdk
 ENV ANDROID_HOME=/android-sdk
 ENV ANDROID_USER_HOME=/android-sdk/user_home
 ENV ANDROID_AVD_HOME=/android-sdk/user_home/avd
-
-ENV RUNNER_TOOL_CACHE=/opt/hostedtoolcache
 
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
