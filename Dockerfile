@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-up
 
 ENV JAVA_HOME=/opt/java/openjdk
 
-COPY --from=eclipse-temurin:17.0.9_9-jdk-jammy $JAVA_HOME $JAVA_HOME
+COPY --from=eclipse-temurin:21.0.1_12-jdk-jammy $JAVA_HOME $JAVA_HOME
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 RUN sudo chown -R runner /home/runner/
