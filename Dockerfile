@@ -23,6 +23,9 @@ RUN sudo chown -R runner /bootstrap
 WORKDIR /bootstrap/android-sdk/cmdline-tools
 RUN curl -L -o commandlinetools-linux.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && unzip commandlinetools-linux.zip && mv cmdline-tools tools && rm commandlinetools-linux.zip
 
+RUN yes | /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=/bootstrap/android-sdk --licenses
+RUN /bootstrap/android-sdk/cmdline-tools/tools/bin/sdkmanager --sdk_root=/bootstrap/android-sdk "cmdline-tools;latest" "emulator" "platform-tools" "platforms;android-34"
+
 ENV ANDROID_SDK_ROOT=/android-sdk
 ENV ANDROID_HOME=/android-sdk
 ENV ANDROID_USER_HOME=/android-sdk/user_home
