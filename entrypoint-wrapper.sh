@@ -9,6 +9,6 @@ sudo chown -R runner /android-sdk
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
 
-mkdir /android-sdk/user_home && ln -s /android-sdk/user_home /home/runner/.android
+mkdir /android-sdk/user_home && ln -s /android-sdk/user_home/ /home/runner/.android/
 
 /home/runner/run.sh
