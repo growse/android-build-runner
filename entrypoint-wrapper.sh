@@ -11,4 +11,4 @@ sudo chmod 666 /dev/kvm
 
 rm -rf /home/runner/.android && mkdir -p /android-sdk/user_home && ln -s /android-sdk/user_home/ /home/runner/.android
 
-/home/runner/run.sh
+/usr/bin/entrypoint.sh

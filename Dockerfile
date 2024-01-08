@@ -7,7 +7,7 @@ ENV GRADLE_USER_HOME=/wrapper/.gradle
 RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.5 --distribution-type bin --gradle-distribution-sha256-sum=9d926787066a081739e8200858338b4a69e837c3a821a33aca9db09dd4a41026 && ./gradlew tasks
 
 # Build the runner based on actions-runner-dind
-FROM ghcr.io/actions/actions-runner:2.311.0
+FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner:v2.311.0-ubuntu-22.04
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip git
 
