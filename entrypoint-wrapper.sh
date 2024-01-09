@@ -1,6 +1,6 @@
 #!/bin/sh
 
-printf '%s\n' "scan.uploadInBackground=false" "org.gradle.configureondemand=true" "org.gradle.console=plain" "org.gradle.workers.max=1" "org.gradle.daemon=false" >/home/runner/.gradle/gradle.properties
+printf '%s\n' "scan.uploadInBackground=false" "org.gradle.configureondemand=true" "org.gradle.console=plain" "org.gradle.workers.max=1" "org.gradle.daemon=false" "org.gradle.configuration-cache=true" >/home/runner/.gradle/gradle.properties
 
 sudo rsync -azr /bootstrap/android-sdk/ /android-sdk/
 
