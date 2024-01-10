@@ -28,7 +28,7 @@ ENV ANDROID_AVD_HOME=/android-sdk/user_home/avd
 WORKDIR /home/runner
 RUN mkdir /home/runner/.gradle
 
-ADD init.gradle.kts /home/runner/.gradle/init.gradle.kts
+ADD init.gradle.kts /home/runner/init.gradle.kts
 
 WORKDIR /
 
