@@ -10,5 +10,6 @@ sudo chown -R runner /android-sdk
 sudo chmod 666 /dev/kvm
 
 rm -rf /home/runner/.android && mkdir -p /android-sdk/user_home && ln -s /android-sdk/user_home/ /home/runner/.android
+mkdir -p /android-sdk/gradle_home
 
 /usr/bin/entrypoint.sh
