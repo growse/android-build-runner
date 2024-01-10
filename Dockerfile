@@ -1,11 +1,5 @@
 # syntax=docker/dockerfile:1
 
-FROM gradle:8.5.0 as wrapper-8.5.0
-RUN mkdir /wrapper
-WORKDIR /wrapper
-ENV GRADLE_USER_HOME=/wrapper/.gradle
-RUN touch settings.gradle.kts && gradle wrapper --gradle-version 8.5 --distribution-type bin --gradle-distribution-sha256-sum=9d926787066a081739e8200858338b4a69e837c3a821a33aca9db09dd4a41026 && ./gradlew tasks
-
 # Build the runner based on actions-runner-dind
 FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner:v2.311.0-ubuntu-22.04
 
@@ -42,10 +36,6 @@ RUN sudo mkdir /android-sdk
 ADD entrypoint-wrapper.sh /
 
 RUN sudo chmod 755 /entrypoint-wrapper.sh
-
-COPY --from=wrapper-8.5.0 /wrapper/.gradle/ /home/runner/.gradle/
-
-RUN sudo chown -R runner:runner /home/runner/.gradle
 
 WORKDIR /
 
