@@ -13,7 +13,7 @@ for gradle_property in "${gradle_properties[@]}" ; do
   grep -qxF "$gradle_property" /home/runner/.gradle/gradle.properties || echo "$gradle_property" >>/home/runner/.gradle/gradle.properties
 done
 
-ln -s /home/runner/init.gradle.kts /home/runner/.gradle/init.gradle.kts
+mkdir -p /home/runner/.gradle/init.d/ && ln -s /home/runner/remoteCache.init.gradle.kts /home/runner/.gradle/init.d/remoteCache.init.gradle.kts
 
 rm -rf /home/runner/.android && mkdir -p /android-sdk/user_home && ln -s /android-sdk/user_home/ /home/runner/.android
 
