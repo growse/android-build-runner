@@ -5,6 +5,7 @@ printf '%s\n' "scan.uploadInBackground=false" "org.gradle.console=plain" "org.gr
 sudo rsync -azr /bootstrap/android-sdk/ /android-sdk/
 
 sudo chown -R runner /android-sdk
+sudo chown -R runner /home/runner/.gradle
 
 # patch /dev/kvm permissions, because screw POSIX
 sudo chmod 666 /dev/kvm
