@@ -10,7 +10,7 @@ sudo chmod 666 /dev/kvm
 
 # Configure the build-specific gradle properties
 touch /home/runner/.gradle/gradle.properties
-gradle_properties=("scan.uploadInBackground=false" "org.gradle.console=plain" "org.gradle.daemon=false" "org.gradle.configuration-cache=false" "org.gradle.parallel=true" "org.gradle.caching=true")
+gradle_properties=("scan.uploadInBackground=false" "org.gradle.console=plain" "org.gradle.daemon=false" "org.gradle.configuration-cache=false" "org.gradle.parallel=true" "org.gradle.caching=true" 'org.gradle.jvmargs=-Xmx3096M -Dkotlin.daemon.jvm.options\="-Xmx2048M" -XX\:+HeapDumpOnOutOfMemoryError -Dfile.encoding\=UTF-8 -XX\:+UseParallelGC')
 for gradle_property in "${gradle_properties[@]}" ; do
   grep -qxF "$gradle_property" /home/runner/.gradle/gradle.properties || echo "$gradle_property" >>/home/runner/.gradle/gradle.properties
 done
