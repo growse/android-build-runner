@@ -19,7 +19,7 @@ done
 mkdir -p /home/runner/.gradle/caches
 
 # Configure gradle to use the on-site remote gradle cache
-mkdir -p /home/runner/.gradle/init.d/ && ln -s /home/runner/remoteCache.init.gradle.kts /home/runner/.gradle/init.d/remoteCache.init.gradle.kts
+mkdir -p /home/runner/.gradle/init.d/ && cp /home/runner/remoteCache.init.gradle.kts /home/runner/.gradle/init.d/remoteCache.init.gradle.kts
 
 # Put the Android AVD store onto persistent storage
 rm -rf /home/runner/.android && mkdir -p /android-sdk/user_home && ln -s /android-sdk/user_home/ /home/runner/.android
