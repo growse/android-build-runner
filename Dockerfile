@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build the runner based on actions-runner-dind
-FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner:v2.311.0-ubuntu-22.04
+FROM ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner:v2.312.0-ubuntu-22.04
 
 RUN --mount=type=cache,target=/var/cache/apt sudo apt update && sudo apt full-upgrade -y && sudo apt install -y libgl1 libc++1-11 libtcmalloc-minimal4 cpu-checker htop rsync curl unzip git libvulkan1 tzdata vim ripgrep less
 
